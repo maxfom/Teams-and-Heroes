@@ -6,5 +6,8 @@ target 'Teams-and-Heroes' do
   use_frameworks!
 
   # Pods for Teams-and-Heroes
+  
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'Alamofire'
 
 end

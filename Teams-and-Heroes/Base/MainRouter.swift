@@ -24,8 +24,8 @@ class MainRouter: NSObject {
         
     }
     
-    func startVC() {
-        let mainTeamsVC = MainTeamsVC()
+    func startVC(teams: [Teams]) {
+        let mainTeamsVC = MainTeamsVC(teams: teams)
         mainTeamsVC.router = self
         pushViewController(vc: mainTeamsVC)
     }
@@ -38,10 +38,10 @@ class MainRouter: NSObject {
 //        navigationController.present(menu, animated: true, completion: nil)
 //    }
 //
-//    func pushSearchMain() {
-//        let searchVC = SearchMainVC()
-//        pushViewController(vc: searchVC)
-//    }
+    func pushAddNewTeam(teams: [Teams]) {
+        let addNewTeamVC = AddNewTeamVC(teams: teams)
+        pushViewController(vc: addNewTeamVC)
+    }
 
     
     private func pushViewController(vc: Routable) {

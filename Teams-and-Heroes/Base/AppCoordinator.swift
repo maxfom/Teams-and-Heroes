@@ -26,7 +26,7 @@ class AppCoordinator: NSObject {
     private func startScreenFlow() {
         let navController = UINavigationController()
         router = MainRouter(navigationController: navController)
-        router?.startVC()
+        router?.startVC(teams: [Teams]())
 //        router?.pushSearchMain()
 //        router?.pushSearchResult(refs: [ReferatsResponse.SearchRes](), searchFilters: [SearchFiltersResponse.filters]())
         //router?.pushOpenReferat(pages: [ShowRefResponse.asPic](), fullText: "")
