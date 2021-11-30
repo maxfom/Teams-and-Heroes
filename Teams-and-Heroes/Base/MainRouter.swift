@@ -42,6 +42,16 @@ class MainRouter: NSObject {
         let addNewTeamVC = AddNewTeamVC(teams: teams)
         pushViewController(vc: addNewTeamVC)
     }
+    
+    func pushChooseHeroes(heroes: [Hero]) {
+        let chooseHeroVC = ChooseHeroVC(heroes: heroes)
+        pushViewController(vc: chooseHeroVC)
+    }
+    
+    func pushAddNewHero(heroes: [Hero]) {
+        let addNewHeroVC = AddNewHeroVC(heroes: heroes)
+        pushViewController(vc: addNewHeroVC)
+    }
 
     
     private func pushViewController(vc: Routable) {

@@ -1,18 +1,14 @@
 //
-//  MainTeamsVC.swift
+//  ChooseHeroVC.swift
 //  Teams-and-Heroes
 //
-//  Created by Максим Фомичев on 09.11.2021.
+//  Created by Максим Фомичев on 01.12.2021.
 //
 
 import UIKit
 import CoreData
 
-protocol SearchResultVCDelegate: AnyObject {
-    func updateSearchFilter(filter: String)
-}
-
-class MainTeamsVC: UIViewController, Routable {
+class ChooseHeroVC: UIViewController, Routable {
     
     var router: MainRouter?
     
@@ -36,22 +32,11 @@ class MainTeamsVC: UIViewController, Routable {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 80))
-        tableView.register(MainTeamsTableViewCell.self, forCellReuseIdentifier: mainTeamsCell)
+        tableView.register(ChooseHeroTableViewCell.self, forCellReuseIdentifier: chooseHeroCell)
         return tableView
     }()
     
-    private let mainTeamsCell = "mainTeamsCell"
-    
-    private let searchController = UISearchController(searchResultsController: nil)
-    
-    private var isFiltering: Bool {
-        return searchController.isActive && !searchBarIsEmpty
-    }
-    
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchController.searchBar.text else { return false }
-        return text.isEmpty
-    }
+    private let chooseHeroCell = "chooseHeroCell"
     
     private let lineBottom: UIView = {
         let line = UIView()
@@ -90,13 +75,11 @@ class MainTeamsVC: UIViewController, Routable {
     }()
     
     // MARK: - Properties
-    private var teams: [Teams]
-    private var searchText: String = ""
+    private var heroes: [Hero]
     
-    init(teams: [Teams]) {
-        self.teams = teams
+    init(heroes: [Hero]) {
+        self.heroes = heroes
         super.init(nibName: nil, bundle: nil)
-        searchController.searchBar.text = searchText
     }
     
     required init?(coder: NSCoder) {
@@ -106,24 +89,15 @@ class MainTeamsVC: UIViewController, Routable {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        getAllTeams()
-        setupNavBar()
+        getAllHeroes()
         setupViews()
         setupConstraints()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTeamButtonTapped))
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTeamButtonTapped))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupSearchController()
         tableView.reloadData()
-        print(teams.count)
-    }
-    
-    private func setupNavBar() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     private func setupViews() {
@@ -134,8 +108,16 @@ class MainTeamsVC: UIViewController, Routable {
         view.addSubview(overlayLoadView)
     }
     
-    @objc func addTeamButtonTapped() {
-        router?.pushAddNewTeam(teams: teams)
+    private func getAllHeroes() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Hero> = Hero.fetchRequest()
+        
+        do {
+            self.heroes = try context.fetch(fetchRequest)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
     }
     
     @objc func bottomMenuButtonFilterTap() {
@@ -145,40 +127,6 @@ class MainTeamsVC: UIViewController, Routable {
     @objc private func buttonBackTap() {
         navigationController?.popViewController(animated: true)
         navigationController?.isNavigationBarHidden = true
-    }
-    
-    private func getAllTeams() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<Teams> = Teams.fetchRequest()
-        
-        do {
-            self.teams = try context.fetch(fetchRequest)
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func deleteOneTeam(team: Teams) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        //let fetchRequest: NSFetchRequest<Teams> = Teams.fetchRequest()
-        context.delete(team)
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        
-    }
-    
-    private func setupSearchController() {
-        // Устанавливаем search controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false // Отключаем ограничение на взаимодействие с объектами результата поиска
-        searchController.searchBar.placeholder = "Искать"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true // Позволяет отпустить строку поиска, при переходе на другой экран
     }
     
     private func startLoading() {
@@ -204,17 +152,17 @@ class MainTeamsVC: UIViewController, Routable {
 
 //MARK: UITableViewDelegate, UITableViewDataSource
 
-extension MainTeamsVC: UITableViewDelegate, UITableViewDataSource {
+extension ChooseHeroVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return teams.count
+        return heroes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "mainTeamsCell", for: indexPath) as! MainTeamsTableViewCell
-        if teams.isEmpty {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "chooseHeroCell", for: indexPath) as! ChooseHeroTableViewCell
+        if heroes.isEmpty {
             return cell
         } else {
-            cell.configure(with: teams, index: indexPath.row)
+            cell.configure(with: heroes, index: indexPath.row)
             return cell
         }
     }
@@ -222,24 +170,11 @@ extension MainTeamsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let editingRow = teams[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            self.deleteOneTeam(team: editingRow)
-            DispatchQueue.main.async {
-                self.teams.remove(at: indexPath.row)
-                self.tableView.reloadData()
-            }
-        }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
 }
 
 //MARK: SetupConstraints
 
-extension MainTeamsVC {
+extension ChooseHeroVC {
     
     func setupConstraints() {
         
@@ -257,33 +192,5 @@ extension MainTeamsVC {
         overlayLoadView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-}
-
-extension MainTeamsVC: SearchResultVCDelegate {
-    
-    func updateSearchFilter(filter: String) {
-        guard let searchText = searchController.searchBar.text,
-              !searchText.isEmpty
-        else {
-            emptyResultError()
-            return
-        }
-    }
-}
-
-extension MainTeamsVC: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text,
-              !searchText.isEmpty
-        else {
-            emptyResultError()
-            return
-        }
-    }
-    
-    private func emptyResultError() {
-        stopLoading()
-        tableView.reloadData()
     }
 }

@@ -12,6 +12,8 @@ extension UIViewController {
     
     let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        
+        
         let friend = UIAlertAction(title: "Friend", style: .default) { _ in
             label.text = "Friend"
             let typeContact = "Friend"

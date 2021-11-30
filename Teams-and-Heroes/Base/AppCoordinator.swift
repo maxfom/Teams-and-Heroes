@@ -27,9 +27,8 @@ class AppCoordinator: NSObject {
         let navController = UINavigationController()
         router = MainRouter(navigationController: navController)
         router?.startVC(teams: [Teams]())
-//        router?.pushSearchMain()
-//        router?.pushSearchResult(refs: [ReferatsResponse.SearchRes](), searchFilters: [SearchFiltersResponse.filters]())
-        //router?.pushOpenReferat(pages: [ShowRefResponse.asPic](), fullText: "")
+        //router?.pushAddNewHero(heroes: [Hero]())
+
         self.window.rootViewController = navController
         self.window.makeKeyAndVisible()
     }

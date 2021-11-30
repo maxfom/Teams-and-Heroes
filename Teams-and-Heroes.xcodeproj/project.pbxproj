@@ -26,6 +26,10 @@
 		501CDD312739E03200CA10C7 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501CDD262739E03200CA10C7 /* UILabel.swift */; };
 		501CDD322739E03200CA10C7 /* KGRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501CDD272739E03200CA10C7 /* KGRadioButton.swift */; };
 		501CDD332739E03200CA10C7 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501CDD282739E03200CA10C7 /* String + Extension.swift */; };
+		50ACA1EB2756D864005D4782 /* ChooseHeroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ACA1EA2756D864005D4782 /* ChooseHeroVC.swift */; };
+		50ACA1ED2756D86E005D4782 /* ChooseHeroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ACA1EC2756D86E005D4782 /* ChooseHeroTableViewCell.swift */; };
+		50F28A7C2756C48E00422B98 /* AddNewHeroVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F28A7B2756C48E00422B98 /* AddNewHeroVC.swift */; };
+		50F28A7E2756C5A000422B98 /* AddNewHeroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F28A7D2756C5A000422B98 /* AddNewHeroTableViewCell.swift */; };
 		50FF88E0274161390042B346 /* JSONDecoderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FF88C7274161390042B346 /* JSONDecoderExtensions.swift */; };
 		50FF88E1274161390042B346 /* RequestDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FF88C8274161390042B346 /* RequestDecoder.swift */; };
 		50FF88E2274161390042B346 /* RequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FF88C9274161390042B346 /* RequestInterceptor.swift */; };
@@ -88,6 +92,10 @@
 		501CDD262739E03200CA10C7 /* UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		501CDD272739E03200CA10C7 /* KGRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KGRadioButton.swift; sourceTree = "<group>"; };
 		501CDD282739E03200CA10C7 /* String + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		50ACA1EA2756D864005D4782 /* ChooseHeroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHeroVC.swift; sourceTree = "<group>"; };
+		50ACA1EC2756D86E005D4782 /* ChooseHeroTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHeroTableViewCell.swift; sourceTree = "<group>"; };
+		50F28A7B2756C48E00422B98 /* AddNewHeroVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewHeroVC.swift; sourceTree = "<group>"; };
+		50F28A7D2756C5A000422B98 /* AddNewHeroTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewHeroTableViewCell.swift; sourceTree = "<group>"; };
 		50FF88C7274161390042B346 /* JSONDecoderExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecoderExtensions.swift; sourceTree = "<group>"; };
 		50FF88C8274161390042B346 /* RequestDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDecoder.swift; sourceTree = "<group>"; };
 		50FF88C9274161390042B346 /* RequestInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestInterceptor.swift; sourceTree = "<group>"; };
@@ -238,6 +246,24 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		50ACA1E92756D853005D4782 /* ChooseHeroes */ = {
+			isa = PBXGroup;
+			children = (
+				50ACA1EA2756D864005D4782 /* ChooseHeroVC.swift */,
+				50ACA1EC2756D86E005D4782 /* ChooseHeroTableViewCell.swift */,
+			);
+			path = ChooseHeroes;
+			sourceTree = "<group>";
+		};
+		50F28A7A2756C46D00422B98 /* AddNewHero */ = {
+			isa = PBXGroup;
+			children = (
+				50F28A7B2756C48E00422B98 /* AddNewHeroVC.swift */,
+				50F28A7D2756C5A000422B98 /* AddNewHeroTableViewCell.swift */,
+			);
+			path = AddNewHero;
+			sourceTree = "<group>";
+		};
 		50FF88C4274161390042B346 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +338,7 @@
 			children = (
 				501CDD002739DE4500CA10C7 /* MainTeamsVC.swift */,
 				50FF88F6274164A90042B346 /* MainTeamsTableViewCell.swift */,
+				50F28A7A2756C46D00422B98 /* AddNewHero */,
 				50FF88F9274166700042B346 /* AddNewTeam */,
 			);
 			path = Teams;
@@ -320,6 +347,7 @@
 		50FF88F9274166700042B346 /* AddNewTeam */ = {
 			isa = PBXGroup;
 			children = (
+				50ACA1E92756D853005D4782 /* ChooseHeroes */,
 				50FF88FA2741668F0042B346 /* AddNewTeamVC.swift */,
 				50FF88FC274167CC0042B346 /* AddNewTeamTableViewCell.swift */,
 				50FF8914274169450042B346 /* HeaderOptionsTableViewCell.swift */,
@@ -500,6 +528,7 @@
 				50FF88F1274161390042B346 /* ShowRefResponse.swift in Sources */,
 				501CDD2D2739E03200CA10C7 /* UITextField.swift in Sources */,
 				501CDD2E2739E03200CA10C7 /* UIImageView.swift in Sources */,
+				50ACA1ED2756D86E005D4782 /* ChooseHeroTableViewCell.swift in Sources */,
 				50FF88EE274161390042B346 /* GetBalanceResponse.swift in Sources */,
 				501CDCFD2739DE4500CA10C7 /* AppDelegate.swift in Sources */,
 				501CDD1A2739DFA600CA10C7 /* AppCoordinator.swift in Sources */,
@@ -508,6 +537,7 @@
 				50FF8917274169450042B346 /* OptionsTableViewCell.swift in Sources */,
 				50FF88E2274161390042B346 /* RequestInterceptor.swift in Sources */,
 				501CDD2C2739E03200CA10C7 /* UIButton + Extension.swift in Sources */,
+				50ACA1EB2756D864005D4782 /* ChooseHeroVC.swift in Sources */,
 				50FF88E3274161390042B346 /* RefAPI.swift in Sources */,
 				501CDD2B2739E03200CA10C7 /* UISearchBar.swift in Sources */,
 				50FF88F0274161390042B346 /* AuthResponse.swift in Sources */,
@@ -532,8 +562,10 @@
 				50FF88FD274167CC0042B346 /* AddNewTeamTableViewCell.swift in Sources */,
 				50FF88EB274161390042B346 /* PDFPagesResponse.swift in Sources */,
 				501CDCFF2739DE4500CA10C7 /* SceneDelegate.swift in Sources */,
+				50F28A7C2756C48E00422B98 /* AddNewHeroVC.swift in Sources */,
 				501CDD1C2739DFBE00CA10C7 /* MainRouter.swift in Sources */,
 				50FF88F5274161390042B346 /* NetworkError.swift in Sources */,
+				50F28A7E2756C5A000422B98 /* AddNewHeroTableViewCell.swift in Sources */,
 				50FF88E1274161390042B346 /* RequestDecoder.swift in Sources */,
 				50FF88ED274161390042B346 /* ReferatsResponse.swift in Sources */,
 			);
@@ -677,6 +709,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Teams-and-Heroes/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -685,7 +718,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.max-dev.Teams-and-Heroes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -697,6 +730,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Teams-and-Heroes/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -705,7 +739,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.max-dev.Teams-and-Heroes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

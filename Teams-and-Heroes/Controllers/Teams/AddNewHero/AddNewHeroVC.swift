@@ -1,32 +1,34 @@
 //
-//  AddNewTeamVC.swift
+//  AddNewHeroVC.swift
 //  Teams-and-Heroes
 //
-//  Created by Максим Фомичев on 14.11.2021.
+//  Created by Максим Фомичев on 30.11.2021.
 //
 
 import UIKit
 import CoreData
 
-class AddNewTeamVC: UITableViewController, Routable {
+class AddNewHeroVC: UITableViewController, Routable {
     
     var router: MainRouter?
     
-    var teams: [Teams]
+    var heroes: [Hero]
     
-    private let idAddNewTeamCell = "idAddNewTeamCell"
-    private let idOptionTasksHeader = "idOptionTasksHeader"
+    private let idAddNewHeroCell = "idAddNewHeroCell"
+    private let idOptionHeroesHeader = "idOptionHeroesHeader"
     
-    let headerNameArray = ["Title Of Your Team", "Choose Your Heroes", "Who is the Leader?", "Icon of Team"]
-    let cellNameArray = ["Name Team", "Name 2", "Name 3", "Name 4"]
+    let headerNameArray = ["Name Of Your Hero", "Special speak of Your Hero", "Main item", "Picture for your Hero"]
+    let cellNameArray = ["Enter name of hero", "ex. For the Horde!", "ex. Sword", "choose image"]
     
-    private var titleTeam: String = ""
-    private var leaderTeam: String = ""
+    private var nameHero: String = ""
+    private var speakHero: String = ""
+    private var mainItem: String = ""
+    private var imageHero: Data?
     
     private var imageIsChanged = false
     
-    init(teams: [Teams]) {
-        self.teams = teams
+    init(heroes: [Hero]) {
+        self.heroes = heroes
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,6 +42,7 @@ class AddNewTeamVC: UITableViewController, Routable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavBar()
         
         title = "Add new Team"
         
@@ -48,37 +51,49 @@ class AddNewTeamVC: UITableViewController, Routable {
         tableView.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.968627451, alpha: 1)
         tableView.separatorStyle = .none
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped))
-        tableView.register(AddNewTeamTableViewCell.self, forCellReuseIdentifier: idAddNewTeamCell)
-        tableView.register(HeaderOptionsTableViewCell.self, forHeaderFooterViewReuseIdentifier: idOptionTasksHeader)
+        tableView.register(AddNewHeroTableViewCell.self, forCellReuseIdentifier: idAddNewHeroCell)
+        tableView.register(HeaderOptionsTableViewCell.self, forHeaderFooterViewReuseIdentifier: idOptionHeroesHeader)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(backButtonTapped))
         
+        print(heroes)
+    }
+    
+    private func setupNavBar() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     @objc func backButtonTapped() {
-        router?.startVC(teams: teams)
+        print("Back")
     }
     
     @objc func saveButtonTapped() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        guard  let entity = NSEntityDescription.entity(forEntityName: "Teams", in: context)  else { return }
+        guard  let entity = NSEntityDescription.entity(forEntityName: "Hero", in: context)  else { return }
         
-        let teamsObject = Teams(entity: entity, insertInto: context)
-        teamsObject.name = titleTeam
-        teamsObject.leader = leaderTeam
-        guard let lastId = teams.last?.id else { return }
-        teamsObject.id = lastId + 1
-        
+        let heroObject = Hero(entity: entity, insertInto: context)
+        heroObject.name = nameHero
+        heroObject.speak = speakHero
+        heroObject.item = mainItem
+        heroObject.image = imageHero
+        if heroes.last?.id != nil {
+        let lastId = heroes.last?.id
+        heroObject.id = (lastId ?? 0) + 1
+        } else {
+        heroObject.id = 1
+        }
         do {
             try context.save()
-            self.teams.append(teamsObject)
-            alertOk(title: "Team added", message: "New team added succesful")
+            self.heroes.append(heroObject)
+            alertOk(title: "Hero added", message: "New hero added succesful")
         } catch let error as NSError {
             print(error.localizedDescription)
         }
         dismiss(animated: true) { [self] in
-        router?.startVC(teams: self.teams)
+        router?.startVC(teams: [Teams]())
         }
     }
     
@@ -91,17 +106,17 @@ class AddNewTeamVC: UITableViewController, Routable {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: idAddNewTeamCell, for: indexPath) as! AddNewTeamTableViewCell
-        cell.configure(cellNameArray: cellNameArray, indexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: idAddNewHeroCell, for: indexPath) as! AddNewHeroTableViewCell
+        cell.cellHeroImageConfigure(cellNameArray: cellNameArray, indexPath: indexPath)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return indexPath.section == 3 ? 200 : 44
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: idOptionTasksHeader) as! HeaderOptionsTableViewCell
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: idOptionHeroesHeader) as! HeaderOptionsTableViewCell
         header.headerConfigure(nameArray: headerNameArray, section: section)
         return header
     }
@@ -111,20 +126,20 @@ class AddNewTeamVC: UITableViewController, Routable {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! AddNewTeamTableViewCell
+        let cell = tableView.cellForRow(at: indexPath) as! AddNewHeroTableViewCell
         
         switch indexPath.section {
         case 0:
             alertForCellName(label: cell.nameCellLabel, name: "Name team", placeholder: "Enter name team") { text in
-                self.titleTeam = text
+                self.nameHero = text
             }
         case 1:
-            router?.pushChooseHeroes(heroes: [Hero]())
-//            alertForCellName(label: cell.nameCellLabel, name: "Choose your heroes", placeholder: "Get Heroes") { text in
-//            }
+            alertForCellName(label: cell.nameCellLabel, name: "Speak special of your hero", placeholder: "ex: For the Horde!") { text in
+                self.speakHero = text
+            }
         case 2:
-            alertForCellName(label: cell.nameCellLabel, name: "Who is your leader?", placeholder: "Choose you leader") { text in
-                self.leaderTeam = text
+            alertForCellName(label: cell.nameCellLabel, name: "Main item for your hero", placeholder: "Choose your item") { text in
+                self.mainItem = text
             }
         case 3:
             alertPhotoCamera { [self] source in
@@ -136,7 +151,7 @@ class AddNewTeamVC: UITableViewController, Routable {
     }
 }
 
-extension AddNewTeamVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension AddNewHeroVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(source) {
@@ -149,12 +164,14 @@ extension AddNewTeamVC: UINavigationControllerDelegate, UIImagePickerControllerD
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let cell = tableView.cellForRow(at: [3, 0]) as! AddNewTeamTableViewCell
+        let cell = tableView.cellForRow(at: [3, 0]) as! AddNewHeroTableViewCell
         
         cell.backgroundViewCell.image = info[.editedImage] as? UIImage
         cell.backgroundViewCell.contentMode = .scaleAspectFill
         cell.backgroundViewCell.clipsToBounds = true
         imageIsChanged = true
+        guard let data = cell.backgroundViewCell.image?.pngData() else { return }
+        self.imageHero = data
         dismiss(animated: true)
     }
 }
